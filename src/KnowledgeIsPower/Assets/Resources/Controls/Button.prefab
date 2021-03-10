@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 22409286}
   - component: {fileID: 22292980}
   - component: {fileID: 11499078}
-  - component: {fileID: 9086937366434598826}
+  - component: {fileID: 11460876}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9086937366434598826
+--- !u!114 &11460876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

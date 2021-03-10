@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:src/KnowledgeIsPower/Assets/Resources/Infastucture.meta
 guid: 5934232c12650e149a9d9914f7caa5ed
+=======
+guid: fa4d557214a0c408b813bc8fb9d3e8cd
+>>>>>>> 5802c966 (Initial state and assets on top of previous master):src/KnowledgeIsPower/Assets/Resources/Enemies/IncrediblyFatDragon.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad17664f2bd48ac954ded0bbd152ec4, type: 3}
   m_Name: Lich
   m_EditorClassIdentifier: 
-  MonsterTypeId: 0
+  MonsterTypeId: 1
   Hp: 9
   Damage: 2
   MinLoot: 1
