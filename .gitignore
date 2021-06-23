@@ -22,3 +22,9 @@ src/KnowledgeIsPower/Assets/Plugins/Editor/JetBrains
 # Build related
 Cake/tools/**
 Cake/!tools/packages.config
+
+# Removed by JustJinx advice
+src/KnowledgeIsPower/Logs/Packages-Update.log
+src/KnowledgeIsPower/Packages/manifest.json
+src/KnowledgeIsPower/Packages/packages-lock.json
+src/KnowledgeIsPower/ProjectSettings/ProjectVersion.txt
