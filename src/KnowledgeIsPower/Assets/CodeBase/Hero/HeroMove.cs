@@ -35,6 +35,5 @@ namespace CodeBase.Hero
 
       _characterController.Move(_movementSpeed * movementVector * Time.deltaTime);
     }
-
   }
 }

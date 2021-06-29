@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CodeBase.Infrastructure
 {
-  public  class  BootstrapState:IState
+  public class BootstrapState : IState
   {
     private const string Initial = "Initial";
     private readonly GameStateMachine _stateMachine;
@@ -18,7 +18,7 @@ namespace CodeBase.Infrastructure
     public void Enter()
     {
       RegisterServices();
-      _sceneLoader.Load(Initial,onLoaded: EnterLoadLevel);
+      _sceneLoader.Load(Initial, onLoaded: EnterLoadLevel);
     }
 
     private void EnterLoadLevel() => _stateMachine.Enter<LoadLevelState, string>("Main");
@@ -30,13 +30,12 @@ namespace CodeBase.Infrastructure
 
     public void Exit()
     {
-      
     }
 
-    private  static IInputService RegisterInputService()
+    private static IInputService RegisterInputService()
     {
       if (Application.isEditor)
-       return new StandaloneInputService();
+        return new StandaloneInputService();
       else
         return new MobileInputService();
     }

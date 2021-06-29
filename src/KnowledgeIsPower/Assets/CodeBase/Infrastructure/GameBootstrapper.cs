@@ -9,7 +9,7 @@ namespace CodeBase.Infrastructure
 
     private void Awake()
     {
-      _game = new Game(this,Curtain);
+      _game = new Game(this, Curtain);
       _game.StateMachine.Enter<BootstrapState>();
 
       DontDestroyOnLoad(this);
