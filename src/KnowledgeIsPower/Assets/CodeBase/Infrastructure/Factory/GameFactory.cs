@@ -7,10 +7,8 @@ namespace CodeBase.Infrastructure.Factory
   {
     private readonly IAssets _assets;
 
-    public GameFactory(IAssets assets)
-    {
+    public GameFactory(IAssets assets) =>
       _assets = assets;
-    }
 
     public GameObject CreateHero(GameObject at) => 
       _assets.Instantiate(AssetPath.HeroPath, at: at.transform.position);
