@@ -1,6 +1,7 @@
 ﻿using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Services.PresistenProgress;
 using CodeBase.Services.Input;
 using UnityEngine;
 
@@ -38,6 +39,7 @@ namespace CodeBase.Infrastructure.States
       _services.RegisterSingle<IInputService>(InputService());
       _services.RegisterSingle<IAssets>(new AssetProvider());
       _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
+      _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
     }
 
     private static IInputService InputService()
