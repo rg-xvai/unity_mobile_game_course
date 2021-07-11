@@ -1,16 +1,29 @@
-﻿using CodeBase.Infrastructure.Services;
+﻿using CodeBase.Data;
+using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Services.Input;
 using UnityEngine;
 
 namespace CodeBase.Hero
 {
-  public class HeroMove : MonoBehaviour
+  public class HeroMove : MonoBehaviour, ISavedProgress
   {
     [SerializeField] private float _movementSpeed;
     [SerializeField] private CharacterController _characterController;
 
     private IInputService _inputService;
+
     private Camera _camera;
+
+    public void UpdateProgress(PlayerProgress progress)
+    {
+      progress.WorldData.Position = transform.position.AsVectorData();
+    }
+
+    public void LoadProgress(PlayerProgress progress)
+    {
+      throw new System.NotImplementedException();
+    }
 
     private void Awake()
     {
