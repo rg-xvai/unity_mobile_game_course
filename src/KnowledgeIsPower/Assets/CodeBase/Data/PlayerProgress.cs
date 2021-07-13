@@ -6,13 +6,11 @@ namespace CodeBase.Data
   [Serializable]
   public class PlayerProgress
   {
-    private readonly string _initialLevel;
+    public WorldData WorldData;
 
     public PlayerProgress(string initialLevel)
     {
-      _initialLevel = initialLevel;
+      WorldData = new WorldData(initialLevel);
     }
-
-    public WorldData WorldData;
   }
 }

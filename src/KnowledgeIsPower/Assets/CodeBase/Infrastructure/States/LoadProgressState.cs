@@ -9,7 +9,7 @@ namespace CodeBase.Infrastructure.States
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly IPersistentProgressService _progressService;
-    private ISaveLoadService _saveLoadService;
+    private readonly ISaveLoadService _saveLoadService;
 
     public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadService)
     {
@@ -34,7 +34,6 @@ namespace CodeBase.Infrastructure.States
 
     public void Exit()
     {
-      throw new NotImplementedException();
     }
   }
 }
