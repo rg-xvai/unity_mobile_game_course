@@ -1,5 +1,8 @@
-﻿namespace CodeBase.Data
+﻿using System;
+
+namespace CodeBase.Data
 {
+  [Serializable]
   public class Vector3Data
   {
     public float X;
