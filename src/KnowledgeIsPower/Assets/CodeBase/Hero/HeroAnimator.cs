@@ -16,30 +16,30 @@ namespace CodeBase.Hero
     private readonly int _attackStateHash = Animator.StringToHash("Attack Normal");
     private readonly int _walkingStateHash = Animator.StringToHash("Run");
     private readonly int _deathStateHash = Animator.StringToHash("Die");
-    
+
     public event Action<AnimatorState> StateEntered;
     public event Action<AnimatorState> StateExited;
-   
+
     public AnimatorState State { get; private set; }
-    
+
     public Animator Animator;
     public CharacterController CharacterController;
-    
+
     public bool IsAttacking => State == AnimatorState.Attack;
 
     private void Update()
     {
       Animator.SetFloat(MoveHash, CharacterController.velocity.magnitude, 0.1f, Time.deltaTime);
     }
-    
+
     public void PlayHit() => Animator.SetTrigger(HitHash);
-    
+
     public void PlayAttack() => Animator.SetTrigger(AttackHash);
 
-    public void PlayDeath() =>  Animator.SetTrigger(DieHash);
+    public void PlayDeath() => Animator.SetTrigger(DieHash);
 
     public void ResetToIdle() => Animator.Play(_idleStateHash, -1);
-    
+
     public void EnteredState(int stateHash)
     {
       State = StateFor(stateHash);
@@ -48,7 +48,7 @@ namespace CodeBase.Hero
 
     public void ExitedState(int stateHash) =>
       StateExited?.Invoke(StateFor(stateHash));
-    
+
     private AnimatorState StateFor(int stateHash)
     {
       AnimatorState state;
@@ -62,7 +62,7 @@ namespace CodeBase.Hero
         state = AnimatorState.Died;
       else
         state = AnimatorState.Unknown;
-      
+
       return state;
     }
   }
