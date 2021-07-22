@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace CodeBase.Enemy
 {
-  public class RotateToPlayer: Follow
+  public class RotateToPlayer : Follow
   {
     public float Speed;
-    private const float  MinimalDistance=1;
+    private const float MinimalDistance = 1;
     private Transform _heroTransform;
     private IGameFactory _gameFactory;
     private Vector3 _positionLook;
@@ -26,27 +26,29 @@ namespace CodeBase.Enemy
       if (Initialized())
         RotateTowardsHero();
     }
-    private void InitialHeroTransform() => 
+
+    private void InitialHeroTransform() =>
       _heroTransform = _gameFactory.HeroGameObject.transform;
 
-    private bool Initialized() => 
+    private bool Initialized() =>
       _heroTransform != null;
 
-    private void HeroCreated() => 
+    private void HeroCreated() =>
       InitialHeroTransform();
+
     private void RotateTowardsHero()
     {
       UpdatePositionToLookAt();
-      transform.rotation = SmoothedRotation(transform.rotation,_positionLook);
+      transform.rotation = SmoothedRotation(transform.rotation, _positionLook);
     }
 
-    private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionLook) => 
+    private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionLook) =>
       Quaternion.Lerp(rotation, TargetRotation(positionLook), SpeedFactor());
 
-    private Quaternion TargetRotation(Vector3 position) => 
+    private Quaternion TargetRotation(Vector3 position) =>
       Quaternion.LookRotation(position);
 
-    private float SpeedFactor() => 
+    private float SpeedFactor() =>
       Speed * Time.deltaTime;
 
     private void UpdatePositionToLookAt()

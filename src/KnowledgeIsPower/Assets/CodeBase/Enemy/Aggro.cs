@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CodeBase.Enemy
 {
-  public class Aggro: MonoBehaviour
+  public class Aggro : MonoBehaviour
   {
     public Follow Follow;
     public TriggerObserver TriggerObserver;
@@ -15,20 +15,19 @@ namespace CodeBase.Enemy
 
     private void Start()
     {
-      TriggerObserver.TriggerEnter += TriggerEnter; 
+      TriggerObserver.TriggerEnter += TriggerEnter;
       TriggerObserver.TriggerExit += TriggerExit;
       SwitchFollowOff();
     }
-    
+
     private void TriggerEnter(Collider obj)
     {
-      if(!_hasAggroTarget)
+      if (!_hasAggroTarget)
       {
         _hasAggroTarget = true;
         StopAggroCoroutine();
         SwitchFollowOn();
       }
-
     }
 
     private void TriggerExit(Collider obj)
@@ -38,7 +37,6 @@ namespace CodeBase.Enemy
         _hasAggroTarget = false;
         _aggroCoroutine = StartCoroutine(SwichFollowoffAfterCooldown());
       }
-     
     }
 
     private void StopAggroCoroutine()
@@ -56,11 +54,10 @@ namespace CodeBase.Enemy
       SwitchFollowOff();
     }
 
-    private void SwitchFollowOn() => 
-      Follow.enabled = true; 
-    
-    private void SwitchFollowOff() => 
+    private void SwitchFollowOn() =>
+      Follow.enabled = true;
+
+    private void SwitchFollowOff() =>
       Follow.enabled = false;
-    
   }
 }

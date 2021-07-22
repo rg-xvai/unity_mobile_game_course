@@ -6,9 +6,9 @@ using UnityEngine.AI;
 
 namespace CodeBase.Enemy
 {
-  public class AgentMoveToPlayer:Follow
+  public class AgentMoveToPlayer : Follow
   {
-    private const float  MinimalDistance=1;
+    private const float MinimalDistance = 1;
     public NavMeshAgent Agent;
     private Transform _heroTransform;
     private IGameFactory _gameFactory;
@@ -24,20 +24,20 @@ namespace CodeBase.Enemy
 
     private void Update()
     {
-      if (Initialized() && HeroNotReached()) 
+      if (Initialized() && HeroNotReached())
         Agent.destination = _heroTransform.position;
     }
 
-    private void InitialHeroTransform() => 
+    private void InitialHeroTransform() =>
       _heroTransform = _gameFactory.HeroGameObject.transform;
 
-    private bool Initialized() => 
+    private bool Initialized() =>
       _heroTransform != null;
 
-    private void HeroCreated() => 
+    private void HeroCreated() =>
       InitialHeroTransform();
 
-    private bool HeroNotReached() => 
-      Vector3.Distance(Agent.transform.position,_heroTransform.position)>MinimalDistance;
+    private bool HeroNotReached() =>
+      Vector3.Distance(Agent.transform.position, _heroTransform.position) > MinimalDistance;
   }
 }
