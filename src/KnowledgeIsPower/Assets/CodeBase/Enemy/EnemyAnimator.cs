@@ -24,7 +24,7 @@ namespace CodeBase.Enemy
 
     public AnimatorState State { get; private set; }
 
-    private void Awake() => 
+    private void Awake() =>
       _animator = GetComponent<Animator>();
 
     public void PlayHit() => _animator.SetTrigger(Hit);
@@ -45,8 +45,8 @@ namespace CodeBase.Enemy
       State = StateFor(stateHash);
       StateEntered?.Invoke(State);
     }
-    
-    public void ExitedState(int stateHash) => 
+
+    public void ExitedState(int stateHash) =>
       StateExited?.Invoke(StateFor(stateHash));
 
     private AnimatorState StateFor(int stateHash)
@@ -62,7 +62,7 @@ namespace CodeBase.Enemy
         state = AnimatorState.Died;
       else
         state = AnimatorState.Unknown;
-      
+
       return state;
     }
   }
