@@ -9,7 +9,7 @@ namespace CodeBase.Infrastructure.Factory
   public interface IGameFactory : IService
   {
     GameObject CreateHero(GameObject at);
-    void CreateHud();
+    GameObject CreateHud();
     List<ISavedProgressReader> ProgressReaders { get; }
     List<ISavedProgress> ProgressWriters { get; }
     GameObject HeroGameObject { get; }
