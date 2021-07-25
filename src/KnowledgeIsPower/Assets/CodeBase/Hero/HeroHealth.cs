@@ -11,7 +11,9 @@ namespace CodeBase.Hero
   {
     public HeroAnimator Animator;
     private State _state;
-    
+
+    public event Action HealthChanged;
+
     public float Current
     {
       get => _state.CurrentHP;
@@ -30,8 +32,6 @@ namespace CodeBase.Hero
       get => _state.MaxHP;
       set => _state.MaxHP = value;
     }
-
-    public event Action HealthChanged;
 
     public void LoadProgress(PlayerProgress progress)
     {
