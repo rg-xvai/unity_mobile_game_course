@@ -42,7 +42,7 @@ namespace CodeBase.Enemy
     {
       if (Hit(out Collider hit))
       {
-        
+        PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1f);
       }
     }
 
