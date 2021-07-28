@@ -14,6 +14,6 @@ namespace CodeBase.Services.Input
       new Vector2(SimpleInput.GetAxis(Horizontal), SimpleInput.GetAxis(Vertical));
 
     public bool IsAttackButtonUp() => 
-      SimpleInput.GetButtonUp(FireButton);
+      SimpleInput.GetMouseButtonDown(0);
   }
 }

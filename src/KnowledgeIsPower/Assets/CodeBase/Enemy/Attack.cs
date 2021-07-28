@@ -23,7 +23,7 @@ namespace CodeBase.Enemy
     private bool _isAttacking;
     private int _layerMask;
     private Collider[] _hits = new Collider[1];
-    private static bool _attackIsActive;
+    private bool _attackIsActive;
 
 
     private void Awake()
@@ -66,10 +66,10 @@ namespace CodeBase.Enemy
       return hitsCount > 0;
     }
 
-    public static void EnableAttack() => 
+    public void EnableAttack() => 
       _attackIsActive = true;
 
-    public static void DisableAttack() => 
+    public void DisableAttack() => 
       _attackIsActive = false;
 
     private void StartAttack()
@@ -80,10 +80,8 @@ namespace CodeBase.Enemy
       _isAttacking = true;
     }
 
-    private Vector3 StartPoint()
-    {
-      return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.position * EffectiveDistance;
-    }
+    private Vector3 StartPoint() => 
+      new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * EffectiveDistance;
 
     private void UpdateCooldown()
     {

@@ -13,9 +13,9 @@ namespace CodeBase.Hero
   {
     public HeroAnimator HeroAnimator;
     public CharacterController CharacterController;
+    
     private IInputService _input;
-
-    private static int _layerMask;
+    private int _layerMask;
     private Collider[] _hits = new Collider[3];
     private Stats _stats;
 
@@ -47,6 +47,6 @@ namespace CodeBase.Hero
       Physics.OverlapSphereNonAlloc(StartPoint() + transform.forward, _stats.DamageRadius, _hits, _layerMask);
 
     private Vector3 StartPoint() =>
-      new Vector3(transform.position.x, CharacterController.center.y / 2, transform.position.x);
+      new Vector3(transform.position.x, CharacterController.center.y / 2, transform.position.z);
   }
 }

@@ -5,7 +5,7 @@ namespace CodeBase.Enemy
   [RequireComponent(typeof(Attack))]
   public class CheckAttackRange : MonoBehaviour
   {
-    public Attack attack;
+    public Attack Attack;
     public TriggerObserver TriggerObserver;
 
     private void Start()
@@ -16,14 +16,10 @@ namespace CodeBase.Enemy
       Attack.DisableAttack();
     }
 
-    private void TriggerEnter(Collider obj)
-    {
+    private void TriggerEnter(Collider obj) => 
       Attack.EnableAttack();
-    }
 
-    private void TriggerExit(Collider obj)
-    {
+    private void TriggerExit(Collider obj) => 
       Attack.DisableAttack();
-    }
   }
 }

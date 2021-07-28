@@ -1,5 +1,4 @@
-﻿using System;
-using CodeBase.Data;
+﻿using CodeBase.Data;
 using CodeBase.Infrastructure.Services.PresistenProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 
@@ -35,10 +34,11 @@ namespace CodeBase.Infrastructure.States
       PlayerProgress progress = new PlayerProgress(initialLevel: "Main");
 
       progress.HeroState.MaxHP = 50;
-      progress.HeroStats.Damage = 1f;
-      progress.HeroStats.DamageRadius = 0.5f;
       progress.HeroState.ResetHP();
 
+      progress.HeroStats.Damage = 1f;
+      progress.HeroStats.DamageRadius = 0.5f;
+      
       return progress;
     }
 
