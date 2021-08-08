@@ -16,5 +16,7 @@ namespace CodeBase.StaticData
     [Range(0.5f, 1f)] public float Cleavage;
 
     public GameObject Prefab;
+
+    [Range(0.2f, 5f)] public float MoveSpeed = 0.5f;
   }
 }

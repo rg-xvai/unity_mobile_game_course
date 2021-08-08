@@ -9,17 +9,10 @@ namespace CodeBase.Enemy
     public float Speed;
     private const float MinimalDistance = 1;
     private Transform _heroTransform;
-    private IGameFactory _gameFactory;
     private Vector3 _positionLook;
 
-    private void Start()
-    {
-      _gameFactory = AllServices.Container.Single<IGameFactory>();
-      if (_gameFactory.HeroGameObject != null)
-        InitialHeroTransform();
-      else
-        _gameFactory.HeroCreated += HeroCreated;
-    }
+    public void Construct(Transform heroTransform) =>
+      _heroTransform = heroTransform;
 
     private void Update()
     {
@@ -27,14 +20,8 @@ namespace CodeBase.Enemy
         RotateTowardsHero();
     }
 
-    private void InitialHeroTransform() =>
-      _heroTransform = _gameFactory.HeroGameObject.transform;
-
     private bool Initialized() =>
       _heroTransform != null;
-
-    private void HeroCreated() =>
-      InitialHeroTransform();
 
     private void RotateTowardsHero()
     {
