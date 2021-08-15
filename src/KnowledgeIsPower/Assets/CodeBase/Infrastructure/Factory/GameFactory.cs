@@ -47,6 +47,9 @@ namespace CodeBase.Infrastructure.Factory
       monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
       monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
+      var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+      lootSpawner.Construct(this); 
+      
       var attack = monster.GetComponent<Attack>();
       attack.Construct(HeroGameObject.transform);
       attack.Damage = monsterData.Damage;
@@ -71,6 +74,9 @@ namespace CodeBase.Infrastructure.Factory
 
       ProgressReaders.Add(progressReader);
     }
+
+    public GameObject CreateLoot() => 
+      InstantiateRegistered(AssetPath.Loot);
 
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
