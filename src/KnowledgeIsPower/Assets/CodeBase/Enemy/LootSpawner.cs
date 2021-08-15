@@ -27,14 +27,18 @@ namespace CodeBase.Enemy
 
     private void SpawnLoot()
     {
-      GameObject loot = _factory.CreateLoot();
+      LootPiece loot = _factory.CreateLoot();
       loot.transform.position = transform.position;
 
-      Loot lootItem = new Loot()
+      Loot lootItem = GenerateLoot();
+      loot.Initialize(lootItem);
+    }
+
+    private Loot GenerateLoot() =>
+      new Loot
       {
         Value = _random.Next(_lootMin, _lootMax)
       };
-    }
 
     public void SetLoot(int min, int max)
     {

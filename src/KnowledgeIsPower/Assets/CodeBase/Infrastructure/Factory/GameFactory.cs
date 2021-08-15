@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using CodeBase.Data;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Infrastructure.Services.PresistenProgress;
 using CodeBase.Logic;
 using CodeBase.StaticData;
 using CodeBase.UI;
@@ -17,16 +19,18 @@ namespace CodeBase.Infrastructure.Factory
     private readonly IAssets _assets;
     private readonly IStaticDataService _staticData;
     private readonly IRandomService _randomService;
+    private readonly IPersistentProgressService _progressService;
 
     public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
     public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
     private GameObject HeroGameObject { get; set; }
 
-    public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService)
+    public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService, IPersistentProgressService progressService)
     {
       _assets = assets;
       _staticData = staticData;
       _randomService = randomService;
+      _progressService = progressService;
     }
 
     public GameObject CreateHero(GameObject at)
@@ -79,9 +83,15 @@ namespace CodeBase.Infrastructure.Factory
       ProgressReaders.Add(progressReader);
     }
 
-    public GameObject CreateLoot() => 
-      InstantiateRegistered(AssetPath.Loot);
-
+    public LootPiece CreateLoot()
+    {
+      LootPiece lootPiece = InstantiateRegistered(AssetPath.Loot).GetComponent<LootPiece>();
+      
+      lootPiece.Construct(_progressService.Progress.WorldData);
+      
+      return lootPiece;
+    }
+      
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
       GameObject gameObject = _assets.Instantiate(prefabPath, at);
