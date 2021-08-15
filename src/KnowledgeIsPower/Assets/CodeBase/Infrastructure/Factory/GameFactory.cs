@@ -39,8 +39,14 @@ namespace CodeBase.Infrastructure.Factory
       return HeroGameObject;
     }
 
-    public GameObject CreateHud() =>
-      InstantiateRegistered(AssetPath.HudPath);
+    public GameObject CreateHud()
+    {
+      GameObject hud = InstantiateRegistered(AssetPath.HudPath);
+      hud.GetComponentInChildren<LootCounter>()
+        .Construct(_progressService.Progress.WorldData);
+      
+      return hud; 
+    }
 
     public GameObject CreateMonster(MonsterTypeId typeId, Transform parent)
     {
