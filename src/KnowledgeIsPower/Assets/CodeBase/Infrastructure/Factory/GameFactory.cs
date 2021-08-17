@@ -44,8 +44,8 @@ namespace CodeBase.Infrastructure.Factory
       GameObject hud = InstantiateRegistered(AssetPath.HudPath);
       hud.GetComponentInChildren<LootCounter>()
         .Construct(_progressService.Progress.WorldData);
-      
-      return hud; 
+
+      return hud;
     }
 
     public GameObject CreateMonster(MonsterTypeId typeId, Transform parent)
@@ -62,8 +62,8 @@ namespace CodeBase.Infrastructure.Factory
 
       var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
       lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
-      lootSpawner.Construct(this, _randomService); 
-      
+      lootSpawner.Construct(this, _randomService);
+
       var attack = monster.GetComponent<Attack>();
       attack.Construct(HeroGameObject.transform);
       attack.Damage = monsterData.Damage;
@@ -73,6 +73,16 @@ namespace CodeBase.Infrastructure.Factory
       monster.GetComponent<RotateToPlayer>()?.Construct(HeroGameObject.transform);
 
       return monster;
+    }
+
+    public LootPiece CreateLoot(Vector3 at)
+    {
+      LootPiece lootPiece = InstantiateRegistered(AssetPath.Loot, at)
+        .GetComponent<LootPiece>();
+
+      lootPiece.Construct(_progressService.Progress.WorldData);
+
+      return lootPiece;
     }
 
     public void Cleanup()
@@ -89,15 +99,6 @@ namespace CodeBase.Infrastructure.Factory
       ProgressReaders.Add(progressReader);
     }
 
-    public LootPiece CreateLoot()
-    {
-      LootPiece lootPiece = InstantiateRegistered(AssetPath.Loot).GetComponent<LootPiece>();
-      
-      lootPiece.Construct(_progressService.Progress.WorldData);
-      
-      return lootPiece;
-    }
-      
     private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
     {
       GameObject gameObject = _assets.Instantiate(prefabPath, at);
