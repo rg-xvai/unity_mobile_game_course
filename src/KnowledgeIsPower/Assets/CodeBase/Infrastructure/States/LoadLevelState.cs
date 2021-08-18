@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Cameralogic;
 using CodeBase.Data;
 using CodeBase.Enemy;
@@ -81,15 +82,15 @@ namespace CodeBase.Infrastructure.States
 
     private void InitLootPieces()
     {
-      List<SpawnedLoot> spawnedItems = _progressService.Progress.WorldData.SpawnedItems;
+      List<SpawnedLoot> spawnedItems = _progressService
+        .Progress
+        .WorldData
+        .SpawnedItems
+        .FindAll(w => w.PositionOnLevel.Level == _sceneName)
+        .ToList();
 
-      for (int i = 0; i < spawnedItems.Count; i++)
+      foreach (SpawnedLoot spawnedItem in spawnedItems)
       {
-        SpawnedLoot spawnedItem = spawnedItems[i];
-        
-        if (spawnedItem.PositionOnLevel.Level != _sceneName)
-          continue;
-        
         _progressService.Progress.WorldData.SpawnedItems.RemoveAll(x => x.Id == spawnedItem.Id);
         LootPiece lootPiece = _gameFactory.CreateLoot(spawnedItem.PositionOnLevel.Position.AsUnityVector());
         lootPiece.Initialize(spawnedItem.Loot);

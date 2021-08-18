@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 6573276039690250080}
   - component: {fileID: 5186074521695895453}
   - component: {fileID: 93212255632140714}
-  - component: {fileID: -956625433293121571}
   m_Layer: 16
   m_Name: Loot
   m_TagString: Untagged
@@ -158,20 +157,6 @@ MonoBehaviour:
   PickupFxPrefab: {fileID: 100000, guid: 82a91e9f8a3879a4ca7adc4a52c5d745, type: 3}
   LootText: {fileID: 1449635954015053507}
   PickupPopup: {fileID: 4815117387547700714}
-  UniqueId: {fileID: -956625433293121571}
---- !u!114 &-956625433293121571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7880382966684822008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b150282288549d3955e46c695d16a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Id: 
 --- !u!1001 &5236617418369292326
 PrefabInstance:
   m_ObjectHideFlags: 0

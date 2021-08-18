@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Logic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace CodeBase.Enemy
 {
@@ -16,41 +13,31 @@ namespace CodeBase.Enemy
     public GameObject PickupFxPrefab;
     public TextMeshPro LootText;
     public GameObject PickupPopup;
-    public UniqueId UniqueId;
-    
+
     private Loot _loot;
     private bool _picked;
     private WorldData _worldData;
-    
+    private SpawnedLoot _spawnedLoot;
 
     public void Construct(WorldData worldData) =>
       _worldData = worldData;
 
-    public void LoadProgress(PlayerProgress progress)
+    public void Initialize(Loot loot)
     {
+      _loot = loot;
+      _spawnedLoot = CreateSpawnedLoot();
     }
 
     public void UpdateProgress(PlayerProgress progress)
     {
-      if (!gameObject.activeSelf)
-        return;
-      
-      SpawnedLoot spawnedLoot = new SpawnedLoot
+      if (_spawnedLoot != null && !progress.WorldData.SpawnedItems.Exists(x => x.Id == _spawnedLoot.Id))
       {
-        Loot = _loot,
-        PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData()),
-        Id = UniqueId.Id
-      };
-      
-      if (!progress.WorldData.SpawnedItems.Exists(x => x.Id == spawnedLoot.Id))
-      {
-        progress.WorldData.SpawnedItems.Add(spawnedLoot);
+        progress.WorldData.SpawnedItems.Add(_spawnedLoot);
       }
     }
 
-    public void Initialize(Loot loot)
+    public void LoadProgress(PlayerProgress progress)
     {
-      _loot = loot;
     }
 
     private void OnTriggerEnter(Collider other) => PickUp();
@@ -70,9 +57,20 @@ namespace CodeBase.Enemy
       StartCoroutine(StartDestroyTimer());
     }
 
-    private void RemoveFromList() =>
-      _worldData.SpawnedItems?.RemoveAll(x => x.Id == UniqueId.Id);
+    private SpawnedLoot CreateSpawnedLoot() =>
+      new SpawnedLoot
+      {
+        Loot = _loot,
+        PositionOnLevel = new PositionOnLevel(GetCurrentLevel(), transform.position.AsVectorData()),
+        Id = GenerateId()
+      };
 
+    private void RemoveFromList()
+    {
+      _worldData.SpawnedItems?.RemoveAll(x => x.Id == _spawnedLoot.Id);
+      _spawnedLoot = null;
+    }
+    
     private void UpdateWorldData() =>
       _worldData.LootData.Collect(_loot);
 
@@ -94,9 +92,10 @@ namespace CodeBase.Enemy
       PickupPopup.SetActive(true);
     }
 
-    private static string CurrentLevel()
-    {
-      return SceneManager.GetActiveScene().name;
-    }
+    private string GenerateId() =>
+      Guid.NewGuid().ToString();
+
+    private string GetCurrentLevel() =>
+      gameObject.scene.name;
   }
 }
