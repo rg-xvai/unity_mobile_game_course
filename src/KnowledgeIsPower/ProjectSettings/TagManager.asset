@@ -10,7 +10,6 @@ TagManager:
   - FxTemporaire
   - InitialPoint
   - LoadingCurtain
-  - EnemySpawner
   layers:
   - Default
   - TransparentFX
