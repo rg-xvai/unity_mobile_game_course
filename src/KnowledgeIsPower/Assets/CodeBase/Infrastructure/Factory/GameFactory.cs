@@ -6,6 +6,7 @@ using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.PresistenProgress;
 using CodeBase.Logic;
+using CodeBase.Logic.EnemySpawners;
 using CodeBase.StaticData;
 using CodeBase.UI;
 using UnityEngine;
@@ -35,13 +36,13 @@ namespace CodeBase.Infrastructure.Factory
 
     public GameObject CreateHero(GameObject at)
     {
-      HeroGameObject = InstantiateRegistered(AssetPath.HeroPath, at.transform.position);
+      HeroGameObject = InstantiateRegistered(AssetPath.Hero, at.transform.position);
       return HeroGameObject;
     }
 
     public GameObject CreateHud()
     {
-      GameObject hud = InstantiateRegistered(AssetPath.HudPath);
+      GameObject hud = InstantiateRegistered(AssetPath.Hud);
       hud.GetComponentInChildren<LootCounter>()
         .Construct(_progressService.Progress.WorldData);
 
@@ -85,13 +86,23 @@ namespace CodeBase.Infrastructure.Factory
       return lootPiece;
     }
 
+    public void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeId monsterTypeId)
+    {
+      SpawnPoint spawner = InstantiateRegistered(AssetPath.Spawner, at)
+        .GetComponent<SpawnPoint>();
+
+      spawner.Construct(this);
+      spawner.Id = spawnerId;
+      spawner.MonsterTypeId = monsterTypeId;
+    }
+
     public void Cleanup()
     {
       ProgressReaders.Clear();
       ProgressWriters.Clear();
     }
 
-    public void Register(ISavedProgressReader progressReader)
+    private void Register(ISavedProgressReader progressReader)
     {
       if (progressReader is ISavedProgress progressWriter)
         ProgressWriters.Add(progressWriter);
