@@ -1,4 +1,6 @@
 ﻿using CodeBase.Infrastructure.Services;
+using CodeBase.StaticData.Windows;
+using CodeBase.UI.Services.Windows;
 
 namespace CodeBase.StaticData
 {
@@ -7,5 +9,6 @@ namespace CodeBase.StaticData
     void LoadMonsters();
     MonsterStaticData ForMonster(MonsterTypeId typeId);
     LevelStaticData ForLevel(string sceneKey);
+    WindowConfig ForWindow(WindowId shop);
   }
 }
