@@ -2,7 +2,7 @@
 
 namespace CodeBase.Infrastructure.Services.Ads
 {
-  public interface IAdsService
+  public interface IAdsService : IService
   {
     event Action RecordedVideoReady;
     bool IsRewardedVideoReady { get; }
