@@ -51,7 +51,11 @@ namespace CodeBase.Infrastructure.States
       _services.RegisterSingle<IRandomService>(new UnityRandomService());
       _services.RegisterSingle<IAssets>(new AssetProvider());
       _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-      _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(), _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>()));
+      _services.RegisterSingle<IUIFactory>(new UIFactory(
+        _services.Single<IAssets>(),
+        _services.Single<IStaticDataService>(),
+        _services.Single<IPersistentProgressService>(),
+        _services.Single<IAdsService>()));
       _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
       _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(), _services.Single<IStaticDataService>(), _services.Single<IRandomService>(), _services.Single<IPersistentProgressService>(), _services.Single<IWindowService>()));
       _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));

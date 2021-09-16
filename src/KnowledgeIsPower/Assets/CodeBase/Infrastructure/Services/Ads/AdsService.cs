@@ -14,6 +14,8 @@ namespace CodeBase.Infrastructure.Services.Ads
 
     public event Action RecordedVideoReady;
 
+    public int Reward => 13;
+
     private string _gameId;
     private string _rewardedVideo;
     private Action _onVideoFinished;

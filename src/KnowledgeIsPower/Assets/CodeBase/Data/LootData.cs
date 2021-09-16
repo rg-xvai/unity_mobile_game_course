@@ -13,6 +13,11 @@ namespace CodeBase.Data
       Collected += loot.Value;
       Changed?.Invoke();
     }
-      
+
+    public void Add(int loot)
+    {
+      Collected += loot;
+      Changed?.Invoke();
+    }
   }
 }
