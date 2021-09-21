@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeBase.Data;
 using CodeBase.Logic.EnemySpawners;
 using CodeBase.StaticData;
@@ -15,7 +16,7 @@ namespace Editor
     private static Dictionary<MonsterTypeId, MonsterStaticData> _monsters;
 
     [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
-    public static void RenderCustomGizmo(SpawnMarker spawner, GizmoType gizmo)
+    public static async void RenderCustomGizmo(SpawnMarker spawner, GizmoType gizmo)
     {
       Color before = Gizmos.color;
       
@@ -28,7 +29,10 @@ namespace Editor
       
       if (_monsters == null)
         LoadMonstersData();
-      Mesh mesh = _monsters[spawner.MonsterTypeId].Prefab.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
+      GameObject prefab = await _monsters[spawner.MonsterTypeId].PrefabReference
+        .LoadAssetAsync()
+        .Task;
+     Mesh mesh = prefab.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
       Gizmos.DrawMesh(mesh, 0, spawner.transform.position, Quaternion.identity, new Vector3(monsterScale, monsterScale, monsterScale));
 
       Gizmos.color = before;

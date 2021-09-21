@@ -16,7 +16,31 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: bcbe25cae5dd220439f18d9fb547fc1f
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 5354b89399d4f004c9173a7072787d12
+    m_Address: Golem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 1500939411536426, guid: 5354b89399d4f004c9173a7072787d12,
+      type: 3}
+    m_TargetAsset: {fileID: 1500939411536426, guid: 5354b89399d4f004c9173a7072787d12,
+      type: 3}
+  - m_GUID: 8fc51816b9338874dba9ccf2fa015704
+    m_Address: Lich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 3345663454165108407, guid: 8fc51816b9338874dba9ccf2fa015704,
+      type: 3}
+    m_TargetAsset: {fileID: 3345663454165108407, guid: 8fc51816b9338874dba9ccf2fa015704,
+      type: 3}
+  - m_GUID: c09d884e7ca40460f91e5b20675d3e94
+    m_Address: FatDragon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4490580572635992603, guid: c09d884e7ca40460f91e5b20675d3e94,
+      type: 3}
+    m_TargetAsset: {fileID: 4490580572635992603, guid: c09d884e7ca40460f91e5b20675d3e94,
+      type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2459f75eb14074b4689e34619db45027, type: 2}
   m_SchemaSet:
