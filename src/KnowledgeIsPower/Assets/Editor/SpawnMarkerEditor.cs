@@ -29,12 +29,13 @@ namespace Editor
       
       if (_monsters == null)
         LoadMonstersData();
+      /*
       GameObject prefab = await _monsters[spawner.MonsterTypeId].PrefabReference
         .LoadAssetAsync()
         .Task;
      Mesh mesh = prefab.GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
       Gizmos.DrawMesh(mesh, 0, spawner.transform.position, Quaternion.identity, new Vector3(monsterScale, monsterScale, monsterScale));
-
+*/
       Gizmos.color = before;
     }
 

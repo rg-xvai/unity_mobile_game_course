@@ -13,7 +13,9 @@ using CodeBase.UI;
 using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Windows;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace CodeBase.Infrastructure.Factory
@@ -58,11 +60,13 @@ namespace CodeBase.Infrastructure.Factory
     public async Task<GameObject> CreateMonster(MonsterTypeId typeId, Transform parent)
     {
       MonsterStaticData monsterData = _staticData.ForMonster(typeId);
-     GameObject prefab = await monsterData.PrefabReference
-       .LoadAssetAsync()
+      AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(monsterData.PrefabReference);
+      
+      GameObject prefab = await handle
        .Task;
+      Addressables.Release(handle);
       GameObject monster = Object.Instantiate(prefab, parent.position, Quaternion.identity, parent);
-      var health = monster.GetComponent<IHealth>();
+      IHealth health = monster.GetComponent<IHealth>();
       health.Current = monsterData.Hp;
       health.Max = monsterData.Hp;
 
@@ -70,11 +74,11 @@ namespace CodeBase.Infrastructure.Factory
       monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
       monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
-      var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+      LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
       lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
       lootSpawner.Construct(this, _randomService);
 
-      var attack = monster.GetComponent<Attack>();
+      Attack attack = monster.GetComponent<Attack>();
       attack.Construct(HeroGameObject.transform);
       attack.Damage = monsterData.Damage;
       attack.Cleavage = monsterData.Cleavage;
