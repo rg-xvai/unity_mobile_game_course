@@ -42,15 +42,15 @@ namespace CodeBase.Infrastructure.Factory
       await _assets.Load<GameObject>(AssetAddress.Loot);
       await _assets.Load<GameObject>(AssetAddress.Spawner);
     }
-    public GameObject CreateHero(Vector3 at)
+    public async Task<GameObject> CreateHero(Vector3 at)
     {
-      HeroGameObject = InstantiateRegistered(AssetAddress.Hero, at);
+      HeroGameObject = await InstantiateRegisteredAsync(AssetAddress.Hero, at);
       return HeroGameObject;
     }
 
-    public GameObject CreateHud()
+    public async Task<GameObject> CreateHud()
     {
-      GameObject hud = InstantiateRegistered(AssetAddress.Hud);
+      GameObject hud = await InstantiateRegistered(AssetAddress.Hud);
       hud.GetComponentInChildren<LootCounter>()
         .Construct(_progressService.Progress.WorldData);
       foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>()) 
@@ -90,7 +90,7 @@ namespace CodeBase.Infrastructure.Factory
     public async Task<LootPiece> CreateLoot(Vector3 at)
     {
       GameObject prefab = await _assets.Load<GameObject>(AssetAddress.Loot);
-      LootPiece lootPiece = InstantiateRegistered(prefab, at)
+      LootPiece lootPiece = InstantiateRegisteredAsync(prefab, at)
         .GetComponent<LootPiece>();
 
       lootPiece.Construct(_progressService.Progress.WorldData);
@@ -101,7 +101,7 @@ namespace CodeBase.Infrastructure.Factory
     public async Task CreateSpawner(Vector3 at, string spawnerId, MonsterTypeId monsterTypeId)
     {
       GameObject prefab = await _assets.Load<GameObject>(AssetAddress.Spawner);
-      SpawnPoint spawner = InstantiateRegistered(prefab, at)
+      SpawnPoint spawner = InstantiateRegisteredAsync(prefab, at)
         .GetComponent<SpawnPoint>();
 
       spawner.Construct(this);
@@ -124,21 +124,21 @@ namespace CodeBase.Infrastructure.Factory
       ProgressReaders.Add(progressReader);
     }
 
-    private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
+    private async Task<GameObject> InstantiateRegisteredAsync(string prefabPath, Vector3 at)
     {
-      GameObject gameObject = _assets.Instantiate(prefabPath, at);
+      GameObject gameObject = await _assets.Instantiate(prefabPath, at);
       RegisterProgressWatchers(gameObject);
       return gameObject;
     }
-    private GameObject InstantiateRegistered(GameObject prefab, Vector3 at)
+    private GameObject InstantiateRegisteredAsync(GameObject prefab, Vector3 at)
     {
       GameObject gameObject = Object.Instantiate(prefab, at,Quaternion.identity);
       RegisterProgressWatchers(gameObject);
       return gameObject;
     }
-    private GameObject InstantiateRegistered(string prefabPath)
+    private async Task<GameObject> InstantiateRegistered(string prefabPath)
     {
-      GameObject gameObject = _assets.Instantiate(prefabPath);
+      GameObject gameObject = await _assets.Instantiate(prefabPath);
       RegisterProgressWatchers(gameObject);
       return gameObject;
     }

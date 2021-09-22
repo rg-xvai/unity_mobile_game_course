@@ -56,7 +56,7 @@ namespace CodeBase.Infrastructure.States
 
     private async void OnLoaded()
     {
-      InitUIRoot();
+     await InitUIRoot();
      await InitGameWorld();
       InformProgressReaders();
 
@@ -69,8 +69,8 @@ namespace CodeBase.Infrastructure.States
         progressReader.LoadProgress(_progressService.Progress);
     }
 
-    private void InitUIRoot() => 
-      _uiFactory.CreateUIRoot();
+    private async Task InitUIRoot() => 
+     await _uiFactory.CreateUIRoot();
 
     private async Task InitGameWorld()
     {
@@ -79,15 +79,15 @@ namespace CodeBase.Infrastructure.States
      await InitSpawners(levelData);
      await InitLootPieces();
     
-      GameObject hero = InitHero(levelData);
+      GameObject hero = await InitHero(levelData);
 
-      InitHud(hero);
+      await InitHud(hero);
 
       CameraFollow(hero);
     }
 
-    private GameObject InitHero(LevelStaticData levelData) => 
-      _gameFactory.CreateHero(at: levelData.InitialHeroPosition);
+    private async Task<GameObject> InitHero(LevelStaticData levelData) => 
+      await _gameFactory.CreateHero(at: levelData.InitialHeroPosition);
 
     private async Task InitSpawners(LevelStaticData levelData)
     {
@@ -113,9 +113,9 @@ namespace CodeBase.Infrastructure.States
       }
     }
 
-    private void InitHud(GameObject hero)
+    private async Task InitHud(GameObject hero)
     {
-      GameObject hud = _gameFactory.CreateHud();
+      GameObject hud = await _gameFactory.CreateHud();
 
       hud.GetComponentInChildren<ActorUI>()
         .Construct(hero.GetComponent<HeroHealth>());
