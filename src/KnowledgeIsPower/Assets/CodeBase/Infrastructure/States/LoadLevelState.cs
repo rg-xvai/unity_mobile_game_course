@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CodeBase.Cameralogic;
 using CodeBase.Data;
 using CodeBase.Enemy;
@@ -46,16 +47,17 @@ namespace CodeBase.Infrastructure.States
       _sceneName = sceneName;
       _curtain.Show();
       _gameFactory.Cleanup();
+      _gameFactory.WarmUp();
       _sceneLoader.Load(sceneName, OnLoaded);
     }
 
     public void Exit() =>
       _curtain.Hide();
 
-    private void OnLoaded()
+    private async void OnLoaded()
     {
       InitUIRoot();
-      InitGameWorld();
+     await InitGameWorld();
       InformProgressReaders();
 
       _stateMachine.Enter<GameLoopState>();
@@ -70,12 +72,12 @@ namespace CodeBase.Infrastructure.States
     private void InitUIRoot() => 
       _uiFactory.CreateUIRoot();
 
-    private void InitGameWorld()
+    private async Task InitGameWorld()
     {
       LevelStaticData levelData = LevelStaticData();
 
-      InitSpawners(levelData);
-      InitLootPieces();
+     await InitSpawners(levelData);
+     await InitLootPieces();
     
       GameObject hero = InitHero(levelData);
 
@@ -87,16 +89,14 @@ namespace CodeBase.Infrastructure.States
     private GameObject InitHero(LevelStaticData levelData) => 
       _gameFactory.CreateHero(at: levelData.InitialHeroPosition);
 
-    private void InitSpawners(LevelStaticData levelData)
+    private async Task InitSpawners(LevelStaticData levelData)
     {
 
-      foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
-      {
-        _gameFactory.CreateSpawner(spawnerData.position, spawnerData.Id, spawnerData.MonsterTypeId);
-      }
+      foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners) 
+        await _gameFactory.CreateSpawner(spawnerData.position, spawnerData.Id, spawnerData.MonsterTypeId);
     }
 
-    private void InitLootPieces()
+    private async Task InitLootPieces()
     {
       List<SpawnedLoot> spawnedItems = _progressService
         .Progress
@@ -108,7 +108,7 @@ namespace CodeBase.Infrastructure.States
       foreach (SpawnedLoot spawnedItem in spawnedItems)
       {
         _progressService.Progress.WorldData.SpawnedItems.RemoveAll(x => x.Id == spawnedItem.Id);
-        LootPiece lootPiece = _gameFactory.CreateLoot(spawnedItem.PositionOnLevel.Position.AsUnityVector());
+        LootPiece lootPiece = await _gameFactory.CreateLoot(spawnedItem.PositionOnLevel.Position.AsUnityVector());
         lootPiece.Initialize(spawnedItem.Loot);
       }
     }
