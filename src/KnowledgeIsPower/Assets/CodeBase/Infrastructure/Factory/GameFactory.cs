@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodeBase.Data;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services;
@@ -9,13 +8,10 @@ using CodeBase.Infrastructure.Services.PresistenProgress;
 using CodeBase.Logic;
 using CodeBase.Logic.EnemySpawners;
 using CodeBase.StaticData;
-using CodeBase.UI;
 using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Windows;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace CodeBase.Infrastructure.Factory
@@ -60,11 +56,8 @@ namespace CodeBase.Infrastructure.Factory
     public async Task<GameObject> CreateMonster(MonsterTypeId typeId, Transform parent)
     {
       MonsterStaticData monsterData = _staticData.ForMonster(typeId);
-      AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(monsterData.PrefabReference);
-      
-      GameObject prefab = await handle
-       .Task;
-      Addressables.Release(handle);
+
+      GameObject prefab = await _assets.Load<GameObject>(monsterData.PrefabReference);
       GameObject monster = Object.Instantiate(prefab, parent.position, Quaternion.identity, parent);
       IHealth health = monster.GetComponent<IHealth>();
       health.Current = monsterData.Hp;
@@ -113,6 +106,7 @@ namespace CodeBase.Infrastructure.Factory
     {
       ProgressReaders.Clear();
       ProgressWriters.Clear();
+      _assets.CleanUp();
     }
 
     private void Register(ISavedProgressReader progressReader)
