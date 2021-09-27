@@ -11,11 +11,11 @@ namespace CodeBase.Data
     public void AddPurchase(string id)
     {
       BoughIAP boughIaPs = Product(id);
-      
+
       if (boughIaPs != null)
         boughIaPs.Count++;
       else
-        BoughIAPs.Add(new BoughIAP( {IApid = id, Count = 1 });
+        BoughIAPs.Add(new BoughIAP {IApid = id, Count = 1});
       
       Changed?.Invoke();
     }
