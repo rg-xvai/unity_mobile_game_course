@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Data;
 using UnityEditor;
 using UnityEngine;
@@ -10,25 +11,29 @@ using UnityEngine.ResourceManagement.Util;
 
 namespace CodeBase.Infrastructure.Services.IAP
 {
-  public class IAAProvider : IStoreListener
+  public class IAPProvider : IStoreListener
   {
     private const string IAPCOnfigPath = "IAP/products";
     private IStoreController _controller;
     private IExtensionProvider _extensions;
-    
-    private List<ProductConfig> _configs;
+    private IAPService _iapService;
+
+    public Dictionary<string,ProductConfig> Configs { get; set; }
 
     public event Action Initialized;
     public bool IsInitialized => _controller != null && _extensions != null;
 
-    public void Initialize()
+    public void Initialize(IAPService iapService)
     {
+      _iapService = iapService;
+      Configs = new Dictionary<string, ProductConfig>();
+      
       Load();
 
       ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
      
-      foreach (ProductConfig productConfig in _configs) 
-        builder.AddProduct(productConfig.Id, productConfig.Type);
+      foreach (ProductConfig productConfig in Configs.Values) 
+        builder.AddProduct(productConfig.Id, productConfig.ProductType);
       
       UnityPurchasing.Initialize( this, builder);
     }
@@ -51,13 +56,18 @@ namespace CodeBase.Infrastructure.Services.IAP
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
       Debug.Log($"UnityPurchasing ProcessPurchase success{purchaseEvent.purchasedProduct.definition.id}");
-      return PurchaseProcessingResult.Complete;
+      return _iapService.ProcessingPurchase(purchaseEvent.purchasedProduct);
     }
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason) => 
       Debug.LogError($"Product{product.definition.id} purchase failed, PurchaseFailureReason {failureReason}, transaction id {product.transactionID}");
 
     private void Load() => 
-      _configs = Resources.Load<TextAsset>(IAPCOnfigPath).text.ToDeserialized<ProductConfigWrapper>().Configs;
+      Configs = Resources
+        .Load<TextAsset>(IAPCOnfigPath)
+        .text
+        .ToDeserialized<ProductConfigWrapper>()
+        .Configs
+        .ToDictionary(x => x.Id, x=>x);
   }
 }
