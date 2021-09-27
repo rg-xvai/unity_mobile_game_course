@@ -796,6 +796,9 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
     Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   luminIcon:
     m_Name: 
@@ -809,10 +812,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 8935ff72-58e0-431e-b554-d2c3821defa1
+  cloudProjectId: 6c50f772-ebc4-488f-9688-3d51beb295ab
   framebufferDepthMemorylessMode: 0
-  projectName: KnowledgeIsPower
-  organizationId: optifun
+  projectName: KnowledgeIsPower (1)
+  organizationId: roymanfelling
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
