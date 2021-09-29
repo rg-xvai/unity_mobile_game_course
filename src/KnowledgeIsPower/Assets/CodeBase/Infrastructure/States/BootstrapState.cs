@@ -60,7 +60,8 @@ namespace CodeBase.Infrastructure.States
         _services.Single<IAssets>(),
         _services.Single<IStaticDataService>(),
         _services.Single<IPersistentProgressService>(),
-        _services.Single<IAdsService>()));
+        _services.Single<IAdsService>(),
+        _services.Single<IIAPService>()));
       
       _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
       _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(), _services.Single<IStaticDataService>(), _services.Single<IRandomService>(), _services.Single<IPersistentProgressService>(), _services.Single<IWindowService>()));
