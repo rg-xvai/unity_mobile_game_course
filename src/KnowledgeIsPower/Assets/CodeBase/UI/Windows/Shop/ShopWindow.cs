@@ -4,7 +4,7 @@ using CodeBase.Infrastructure.Services.IAP;
 using CodeBase.Infrastructure.Services.PresistenProgress;
 using TMPro;
 
-namespace CodeBase.UI.Windows
+namespace CodeBase.UI.Windows.Shop
 {
   public class ShopWindow : WindowBase
   {

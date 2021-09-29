@@ -1,5 +1,4 @@
 ﻿using System;
-using CodeBase.Data;
 using UnityEngine.Purchasing;
 
 namespace CodeBase.Infrastructure.Services.IAP
@@ -14,5 +13,7 @@ namespace CodeBase.Infrastructure.Services.IAP
 
     public ItemType ItemType;
     public int Quantity;
+    public string Price;
+    public string Icon;
   }
 }

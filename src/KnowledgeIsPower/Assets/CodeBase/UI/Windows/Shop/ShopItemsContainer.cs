@@ -5,7 +5,7 @@ using CodeBase.Infrastructure.Services.IAP;
 using CodeBase.Infrastructure.Services.PresistenProgress;
 using UnityEngine;
 
-namespace CodeBase.UI.Windows
+namespace CodeBase.UI.Windows.Shop
 {
   public class ShopItemsContainer : MonoBehaviour
   {
@@ -16,7 +16,7 @@ namespace CodeBase.UI.Windows
     private IIAPService _iapService;
     private IPersistentProgressService _progressService;
     private IAssets _assets;
-    private List<GameObject> _shopItems;
+    private readonly List<GameObject> _shopItems= new List<GameObject>();
 
     public void Construct(IIAPService iapService, IPersistentProgressService progressService, IAssets assets)
     {
@@ -43,16 +43,30 @@ namespace CodeBase.UI.Windows
     private async void RefreshAvailableItems()
     {
       UpdateShopUnavailableObjects();
-      if (_iapService.IsInitialized)
+      if (!_iapService.IsInitialized)
         return;
 
+      ClearShopItems();
+
+      await FillShopItems();
+    }
+
+    private void ClearShopItems()
+    {
       foreach (GameObject shopItem in _shopItems)
         Destroy(shopItem);
+    }
 
+    private async Task FillShopItems()
+    {
       foreach (ProductDescription productDescription in _iapService.Products())
       {
         GameObject shopItemObject = await _assets.Instantiate(ShopItemPath, Parent);
         ShopItem shopItem = shopItemObject.GetComponent<ShopItem>();
+
+        shopItem.Construct(_assets, _iapService, productDescription);
+
+        shopItem.Initialize();
 
         _shopItems.Add(shopItemObject);
       }
